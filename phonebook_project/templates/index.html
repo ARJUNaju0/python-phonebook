@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonebook</title>
+</head>
+<body>
+    <h1>Phonebook</h1>
+
+      <!-- Display Phonebook Entries -->
+      <h3>Phonebook Entries</h3>
+      <table>
+          <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              {% comment %} <th>Actions</th> {% endcomment %}
+          </tr>
+          {% for phone in phone_list %}
+          <tr>
+              <td>{{ phone.name }}</td>
+              <td>{{ phone.phone }}</td>
+          </tr>
+          {% endfor %}
+      </table>
+
+    <!-- Display Success or Error Messages -->
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <!-- Add Phone Number Form -->
+    <h3>Add Phone Number</h3>
+    <form method="POST" action='add'>
+        {% csrf_token %}
+        <label>Name:</label>
+        <input type="text" name="name" required>
+        <label>Phone:</label>
+        <input type="text" name="phone" required>
+        <button type="submit">Add</button>
+    </form>
+
+  
+    <h3>Phonebook Update</h3>
+    <!-- Update Form -->
+    <form method="POST" action="{% url 'updatename' %}" style="display:inline;">
+        {% csrf_token %}
+        <label for="">Old Name</label>
+        <input type="text" name="name" value="{{ phone.name }}" required>
+        <label for="">New Name</label>
+        <input type="text" name="newname" value="{{ phone.name }}" required>
+        <button type="submit">Update</button>
+    </form>
+    <h3>Delete</h3>
+    <!-- Delete Form -->
+ <form method="POST" action="{% url 'deletephone' %}" style="display:inline;">
+    {% csrf_token %}
+    <label for="">Name</label>
+    <input type="text" name="name" value="{{ phone.name }}" required>
+    <button type="submit">Delete</button>
+</form>
+
+
+</body>
+</html>
